@@ -33,11 +33,17 @@ public class PersonController {
 	@PostMapping(value="/create")
 	public ResponseEntity<Person> createPerson(@RequestBody Person person) {
 		
+		try {
+			
+		
 		personRepo.save(person);
 		HttpHeaders headers = new HttpHeaders();
         headers.add("Responded", "Creation succès");
  	    return new ResponseEntity<Person>(person, HttpStatus.CREATED);
-   
+		} catch (Exception e) {
+
+			return new ResponseEntity<Person>(HttpStatus.CONFLICT);
+		}
     //return new ResponseEntity<List <Person>>(HttpStatus.NOT_FOUND);
         //return ResponseEntity.accepted().headers(headers).body(person);
 	}
