@@ -86,15 +86,27 @@ public class PersonController {
 	public List<Person> getAllByName(@PathVariable String name){
 		return personRepo.getAllByName(name);
 	}
-	
+	/*
+	@RequestMapping(value = "/all/by/persons/{id}")
+    public ResponseEntity<Person> getPersonById (@PathVariable("id") Long id)
+    {
+        if (id <= 3) {
+        	Person person = new Person();
+        	person.setIdPesron(id);
+            return new ResponseEntity<Person>(person, HttpStatus.OK);
+        }
+        return new ResponseEntity<Person>(HttpStatus.NOT_FOUND);
+    }
+	*/
 	@GetMapping(value = "/all/by/name/{name}/adress/{adress}")
 	//(@PathVariable long fooid, @PathVariable long barid) 
 	public ResponseEntity<List <Person>> getAllByNameAdress(@PathVariable String name,@PathVariable String adress){
 		
+		if (name .equals("CSS")) {
 		List<Person> persons = personRepo.getAllByNameAndAdress(name,adress);
-	    return ResponseEntity.ok(persons);  // return 200, with json body
-
-	 // return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); 
+		   return new ResponseEntity<List <Person>>(persons, HttpStatus.OK);
+        }
+        return new ResponseEntity<List <Person>>(HttpStatus.NOT_FOUND);
 	}
 	
 	
