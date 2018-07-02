@@ -36,8 +36,10 @@ public class PersonController {
 		personRepo.save(person);
 		HttpHeaders headers = new HttpHeaders();
         headers.add("Responded", "Creation succès");
-        
-        return ResponseEntity.accepted().headers(headers).body(person);
+ 	    return new ResponseEntity<Person>(person, HttpStatus.CREATED);
+   
+    //return new ResponseEntity<List <Person>>(HttpStatus.NOT_FOUND);
+        //return ResponseEntity.accepted().headers(headers).body(person);
 	}
 
 	
