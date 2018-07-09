@@ -23,7 +23,7 @@ import com.kchaou.javalabs.entities.Person;
 import com.kchaou.javalabs.repositories.IPersonRepository;
 
 @RestController
-@RequestMapping(value = "/person/v1")
+@RequestMapping(value = "/personKCH/v1")
 public class PersonController {
 
 	@Autowired
