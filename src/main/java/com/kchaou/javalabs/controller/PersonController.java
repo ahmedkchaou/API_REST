@@ -34,7 +34,6 @@ public class PersonController {
 	public ResponseEntity<Person> createPerson(@RequestBody Person person) {
 		
 		try {
-			
 		
 		personRepo.save(person);
 		HttpHeaders headers = new HttpHeaders();
