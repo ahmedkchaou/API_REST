@@ -22,8 +22,21 @@ public class Person implements Serializable {
 	private String mail;
 	private String phone;
 	
+	
+
 	public Person() {
+		super();
 		
+	}
+
+	public Person( String name, String familyName, String adress, String mail, String phone) {
+	
+	
+		this.name = name;
+		this.familyName = familyName;
+		this.adress = adress;
+		this.mail = mail;
+		this.phone = phone;
 	}
 
 	public Long getIdPesron() {

@@ -23,100 +23,92 @@ import com.kchaou.javalabs.entities.Person;
 import com.kchaou.javalabs.repositories.IPersonRepository;
 
 @RestController
-@RequestMapping(value = "/personKCHAOU/v1")
+@RequestMapping(value = "/person/v1")
 public class PersonController {
 
 	@Autowired
 	private IPersonRepository personRepo;
-	
-	//Methode d'envoi => @RequestMapping(value="/create", method=RequestMethod.POST)
-	@PostMapping(value="/create")
+
+	// Methode d'envoi => @RequestMapping(value="/create",
+	// method=RequestMethod.POST)
+	@PostMapping(value = "/create")
 	public ResponseEntity<Person> createPerson(@RequestBody Person person) {
-		
+
 		try {
-		
-		personRepo.save(person);
-		HttpHeaders headers = new HttpHeaders();
-        headers.add("Responded", "Creation succès");
- 	    return new ResponseEntity<Person>(person, HttpStatus.CREATED);
+
+			personRepo.save(person);
+			HttpHeaders headers = new HttpHeaders();
+			headers.add("Responded", "Creation succès");
+			return new ResponseEntity<Person>(person, HttpStatus.CREATED);
 		} catch (Exception e) {
 
 			return new ResponseEntity<Person>(HttpStatus.CONFLICT);
 		}
-    //return new ResponseEntity<List <Person>>(HttpStatus.NOT_FOUND);
-        //return ResponseEntity.accepted().headers(headers).body(person);
+		// return new ResponseEntity<List <Person>>(HttpStatus.NOT_FOUND);
+		// return ResponseEntity.accepted().headers(headers).body(person);
 	}
 
-	
-	@PutMapping(value="/update/{id}") //Put c'est qu'on peut modifier
+	@PutMapping(value = "/update/{id}") // Put c'est qu'on peut modifier
 	public ResponseEntity<Person> updatePerson(@PathVariable Long id, @RequestBody Person person) {
-		
-		if(id != null) {
+
+		if (id != null) {
 			Optional<Person> p = personRepo.findById(id);
-			if (p !=null) {
+			if (p != null) {
 				person.setIdPesron(id);
-			person = personRepo.save(person);
+				person = personRepo.save(person);
 			}
 		}
 		HttpHeaders responseHeaders = new HttpHeaders();
-		   responseHeaders.set("MyResponseHeader", "Update succes");
-		 
-        return new ResponseEntity<Person>(person, responseHeaders, HttpStatus.ACCEPTED);
-        
-        //return ResponseEntity.accepted().headers(headers).body(person);
-			
+		responseHeaders.set("MyResponseHeader", "Update succes");
+
+		return new ResponseEntity<Person>(person, responseHeaders, HttpStatus.ACCEPTED);
+
+		// return ResponseEntity.accepted().headers(headers).body(person);
+
 	}
-	
-	@DeleteMapping(value ="/delete/{id}")
+
+	@DeleteMapping(value = "/delete/{id}")
 	public void deletePerson(@PathVariable Long id) {
-		
-		if(id != null) {
+
+		if (id != null) {
 			Optional<Person> p = personRepo.findById(id);
-			if (p !=null) {
-			personRepo.deleteById(id);
+			if (p != null) {
+				personRepo.deleteById(id);
 			}
-		}	
+		}
 	}
-	
-	//@GetMapping(value = "/all")
-	@RequestMapping(path="/all",method=RequestMethod.GET)
-	public ResponseEntity<List <Person>>  getAll(){
-		
+
+	// @GetMapping(value = "/all")
+	@RequestMapping(path = "/all", method = RequestMethod.GET)
+	public ResponseEntity<List<Person>> getAll() {
+
 		List<Person> persons = personRepo.findAll();
-		 return ResponseEntity.ok(persons);  // return 200, with json body
-   //	return ResponseEntity.ok(personRepo.findAll()) ;
-		 
-   
+		return ResponseEntity.ok(persons); // return 200, with json body
+		// return ResponseEntity.ok(personRepo.findAll()) ;
+
 	}
-	
+
 	@GetMapping(value = "/all/by/name/{name}")
-	public List<Person> getAllByName(@PathVariable String name){
+	public List<Person> getAllByName(@PathVariable String name) {
 		return personRepo.getAllByName(name);
 	}
+
 	/*
-	@RequestMapping(value = "/all/by/persons/{id}")
-    public ResponseEntity<Person> getPersonById (@PathVariable("id") Long id)
-    {
-        if (id <= 3) {
-        	Person person = new Person();
-        	person.setIdPesron(id);
-            return new ResponseEntity<Person>(person, HttpStatus.OK);
-        }
-        return new ResponseEntity<Person>(HttpStatus.NOT_FOUND);
-    }
-	*/
+	 * @RequestMapping(value = "/all/by/persons/{id}") public ResponseEntity<Person>
+	 * getPersonById (@PathVariable("id") Long id) { if (id <= 3) { Person person =
+	 * new Person(); person.setIdPesron(id); return new
+	 * ResponseEntity<Person>(person, HttpStatus.OK); } return new
+	 * ResponseEntity<Person>(HttpStatus.NOT_FOUND); }
+	 */
 	@GetMapping(value = "/all/by/name/{name}/adress/{adress}")
-	//(@PathVariable long fooid, @PathVariable long barid) 
-	public ResponseEntity<List <Person>> getAllByNameAdress(@PathVariable String name,@PathVariable String adress){
-		
-		if (name .equals("CSS")) {
-		List<Person> persons = personRepo.getAllByNameAndAdress(name,adress);
-		   return new ResponseEntity<List <Person>>(persons, HttpStatus.OK);
-        }
-        return new ResponseEntity<List <Person>>(HttpStatus.NOT_FOUND);
+	// (@PathVariable long fooid, @PathVariable long barid)
+	public ResponseEntity<List<Person>> getAllByNameAdress(@PathVariable String name, @PathVariable String adress) {
+
+		if (name.equals("CSS")) {
+			List<Person> persons = personRepo.getAllByNameAndAdress(name, adress);
+			return new ResponseEntity<List<Person>>(persons, HttpStatus.OK);
+		}
+		return new ResponseEntity<List<Person>>(HttpStatus.NOT_FOUND);
 	}
-	
-	
-	
-	
+
 }
