@@ -13,5 +13,7 @@ public interface PersonService {
 	public Person savePerson(Person person);
 
 	public void removePerson(Person person);
+	
+	public Person findByName(String name);
 
 }

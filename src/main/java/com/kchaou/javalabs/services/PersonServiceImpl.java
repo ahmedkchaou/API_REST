@@ -42,4 +42,11 @@ public class PersonServiceImpl implements PersonService{
 		return personRepo.findById(id).get();
 	}
 
+
+	@Override
+	public Person findByName(String name) {
+		
+		return personRepo.findByName(name);
+	}
+
 }

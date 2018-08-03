@@ -47,6 +47,18 @@ public class PersonServiceTest {
 
 		assertEquals(1, result.size());
 	}
+	
+	@Test
+	public void get_person_by_name() {
+		
+		Person person = new Person("bou7a", "bouhamed", "Courbevoie", "bou7a@gmail.com", "06631645848");
+
+		when(personRepo.findByName("bou7a")).thenReturn(person);
+		
+		Person p = personService.findByName(person.getName());
+		
+		assertEquals("bou7a", p.getName());
+	}
 
 	@Test
 	public void save_person() {
