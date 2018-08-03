@@ -22,45 +22,45 @@ public class PersonRepositoryTests {
 
 	@Test
 	public void it_can_find_the_person_after_save_it() {
-		Person contact = new Person("7souna", "kachou", "paris", "css@css.com", "54545545");
+		Person person = new Person("7souna", "kachou", "paris", "css@css.com", "54545545");
 
-		personRepo.save(contact);
+		personRepo.save(person);
 
-		List<Person> contacts = personRepo.findAll();
+		List<Person> persons = personRepo.findAll();
 
-		// assertEquals(5, contacts.size());
-		assertEquals("7souna", contacts.get(2).getName());
+		// assertEquals(5, persons.size());
+		assertEquals("7souna", persons.get(2).getName());
 
 	}
 
 	@Test
 	public void it_can_find_the_person_after_delete_it() {
-		Person contact = new Person("7souna", "kachou", "paris", "css@css.com", "54545545");
+		Person person = new Person("7souna", "kachou", "paris", "css@css.com", "54545545");
 
-		personRepo.save(contact);
+		personRepo.save(person);
 		
-		List<Person> contacts = personRepo.findAll();
+		List<Person> persons = personRepo.findAll();
 
-		personRepo.delete(contacts.get(5));
+		personRepo.delete(persons.get(5));
 
-		// assertEquals(5, contacts.size());
-		assertEquals("7souna", contacts.get(2).getName());
+		// assertEquals(5, persons.size());
+		assertEquals("7souna", persons.get(2).getName());
 
 	}
 
 	@Test
 	public void it_can_update_the_person_after_save_it() {
 
-		Person contact = new Person("7ammouda", "bou7mid", "tunis", "csscss@css.com", "9874949");
+		Person person = new Person("7ammouda", "bou7mid", "tunis", "csscss@css.com", "9874949");
 
-		personRepo.save(contact);
-		System.out.println("Id after save: " + contact.getIdPesron());
-		contact.setMail("ahmed.kchaou@test.com");
-		personRepo.save(contact);
+		personRepo.save(person);
+		System.out.println("Id after save: " + person.getIdPesron());
+		person.setMail("ahmed.kchaou@test.com");
+		personRepo.save(person);
 
-		List<Person> contacts = personRepo.getAllByName("7ammouda");
+		List<Person> persons = personRepo.getAllByName("7ammouda");
 
-		assertEquals("ahmed.kchaou@test.com", contacts.get(0).getMail());
+		assertEquals("ahmed.kchaou@test.com", persons.get(0).getMail());
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
