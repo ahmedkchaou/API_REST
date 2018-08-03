@@ -15,7 +15,7 @@ import com.kchaou.javalabs.repositories.IPersonRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class DemoApplicationTests {
+public class PersonRepositoryTests {
 
 	@Autowired
 	IPersonRepository personRepo;
