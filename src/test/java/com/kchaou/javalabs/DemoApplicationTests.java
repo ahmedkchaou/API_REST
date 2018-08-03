@@ -20,16 +20,11 @@ public class DemoApplicationTests {
 	@Autowired
 	IPersonRepository personRepo;
 
-	/*
-	 * "idPesron": 1, "name": "Ahmed", "familyName": "kchaou", "adress": "paris",
-	 * "mail": "kchaou@gmail.com", "phone": "0664984639"
-	 */
-
 	@Test
 	public void it_can_find_the_person_after_save_it() {
 		Person contact = new Person("7souna", "kachou", "paris", "css@css.com", "54545545");
 
-		// personRepo.save(contact);
+		personRepo.save(contact);
 
 		List<Person> contacts = personRepo.findAll();
 
@@ -42,6 +37,8 @@ public class DemoApplicationTests {
 	public void it_can_find_the_person_after_delete_it() {
 		Person contact = new Person("7souna", "kachou", "paris", "css@css.com", "54545545");
 
+		personRepo.save(contact);
+		
 		List<Person> contacts = personRepo.findAll();
 
 		personRepo.delete(contacts.get(5));
@@ -57,12 +54,22 @@ public class DemoApplicationTests {
 		Person contact = new Person("7ammouda", "bou7mid", "tunis", "csscss@css.com", "9874949");
 
 		personRepo.save(contact);
-		System.out.println("Id after save: "+contact.getIdPesron());
+		System.out.println("Id after save: " + contact.getIdPesron());
 		contact.setMail("ahmed.kchaou@test.com");
 		personRepo.save(contact);
 
 		List<Person> contacts = personRepo.getAllByName("7ammouda");
 
 		assertEquals("ahmed.kchaou@test.com", contacts.get(0).getMail());
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void failure_when_person_exists() throws Exception {
+	  
+	  Person person = new Person("7ammouda28", "bou7mid", "tunis", "csscss@css.com", "9874949");
+
+	  person.setIdPesron((long) 28);
+
+	  personRepo.save(person);
 	}
 }

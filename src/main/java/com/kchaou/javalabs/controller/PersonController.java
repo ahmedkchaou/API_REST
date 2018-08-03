@@ -1,114 +1,74 @@
 package com.kchaou.javalabs.controller;
 
 import java.util.List;
-import java.util.Optional;
-
-import javax.websocket.server.PathParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import com.kchaou.exception.PersonException;
 import com.kchaou.javalabs.entities.Person;
-import com.kchaou.javalabs.repositories.IPersonRepository;
+import com.kchaou.javalabs.services.PersonService;
 
 @RestController
 @RequestMapping(value = "/person/v1")
 public class PersonController {
 
+	private static final Logger logger = LoggerFactory.getLogger(PersonController.class);
+
 	@Autowired
-	private IPersonRepository personRepo;
+	private PersonService personService;
 
-	// Methode d'envoi => @RequestMapping(value="/create",
-	// method=RequestMethod.POST)
-	@PostMapping(value = "/create")
-	public ResponseEntity<Person> createPerson(@RequestBody Person person) {
-
-		try {
-
-			personRepo.save(person);
-			HttpHeaders headers = new HttpHeaders();
-			headers.add("Responded", "Creation succès");
-			return new ResponseEntity<Person>(person, HttpStatus.CREATED);
-		} catch (Exception e) {
-
-			return new ResponseEntity<Person>(HttpStatus.CONFLICT);
-		}
-		// return new ResponseEntity<List <Person>>(HttpStatus.NOT_FOUND);
-		// return ResponseEntity.accepted().headers(headers).body(person);
+	@RequestMapping(value = "/all", method = RequestMethod.GET)
+	public ResponseEntity<List<Person>> getAllToDo() {
+		logger.info("Returning all the Person´s");
+		return new ResponseEntity<List<Person>>(personService.getAllPerson(), HttpStatus.OK);
 	}
 
-	@PutMapping(value = "/update/{id}") // Put c'est qu'on peut modifier
-	public ResponseEntity<Person> updatePerson(@PathVariable Long id, @RequestBody Person person) {
-
-		if (id != null) {
-			Optional<Person> p = personRepo.findById(id);
-			if (p != null) {
-				person.setIdPesron(id);
-				person = personRepo.save(person);
-			}
+	@RequestMapping(value = "/person/{id}", method = RequestMethod.GET)
+	public ResponseEntity<Person> getPersonById(@PathVariable("id") long id) throws PersonException {
+		logger.info("Person id to return " + id);
+		Person person = personService.getPersonById(id);
+		if (person == null || person.getIdPesron() <= 0) {
+			throw new PersonException("Person doesn´t exist");
 		}
-		HttpHeaders responseHeaders = new HttpHeaders();
-		responseHeaders.set("MyResponseHeader", "Update succes");
-
-		return new ResponseEntity<Person>(person, responseHeaders, HttpStatus.ACCEPTED);
-
-		// return ResponseEntity.accepted().headers(headers).body(person);
-
+		return new ResponseEntity<Person>(personService.getPersonById(id), HttpStatus.OK);
 	}
 
 	@DeleteMapping(value = "/delete/{id}")
 	public void deletePerson(@PathVariable Long id) {
 
 		if (id != null) {
-			Optional<Person> p = personRepo.findById(id);
+			Person p = personService.getPersonById(id);
 			if (p != null) {
-				personRepo.deleteById(id);
+				personService.removePerson(p);
 			}
 		}
 	}
 
-	// @GetMapping(value = "/all")
-	@RequestMapping(path = "/all", method = RequestMethod.GET)
-	public ResponseEntity<List<Person>> getAll() {
+	@RequestMapping(value = "/savePerson", method = RequestMethod.POST)
+	public ResponseEntity<Person> savePerson(@RequestBody Person person) throws PersonException {
+		logger.info("Person to save " + person);
 
-		List<Person> persons = personRepo.findAll();
-		return ResponseEntity.ok(persons); // return 200, with json body
-		// return ResponseEntity.ok(personRepo.findAll()) ;
-
+		return new ResponseEntity<Person>(personService.savePerson(person), HttpStatus.OK);
 	}
 
-	@GetMapping(value = "/all/by/name/{name}")
-	public List<Person> getAllByName(@PathVariable String name) {
-		return personRepo.getAllByName(name);
-	}
-
-	/*
-	 * @RequestMapping(value = "/all/by/persons/{id}") public ResponseEntity<Person>
-	 * getPersonById (@PathVariable("id") Long id) { if (id <= 3) { Person person =
-	 * new Person(); person.setIdPesron(id); return new
-	 * ResponseEntity<Person>(person, HttpStatus.OK); } return new
-	 * ResponseEntity<Person>(HttpStatus.NOT_FOUND); }
-	 */
-	@GetMapping(value = "/all/by/name/{name}/adress/{adress}")
-	// (@PathVariable long fooid, @PathVariable long barid)
-	public ResponseEntity<List<Person>> getAllByNameAdress(@PathVariable String name, @PathVariable String adress) {
-
-		if (name.equals("CSS")) {
-			List<Person> persons = personRepo.getAllByNameAndAdress(name, adress);
-			return new ResponseEntity<List<Person>>(persons, HttpStatus.OK);
+	@RequestMapping(value = "/updatePerson", method = RequestMethod.PATCH)
+	public ResponseEntity<Person> updatePerson(@RequestBody Person person) throws PersonException {
+		logger.info("Person to update " + person);
+		Person p = personService.getPersonById(person.getIdPesron());
+		if (p == null || p.getIdPesron() <= 0) {
+			throw new PersonException("Person to update doesn´t exist");
 		}
-		return new ResponseEntity<List<Person>>(HttpStatus.NOT_FOUND);
+		return new ResponseEntity<Person>(personService.savePerson(person), HttpStatus.OK);
 	}
 
+	
 }
