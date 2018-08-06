@@ -1,4 +1,4 @@
-package com.kchaou.javalabs;
+package com.kchaou.restapi;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.times;
