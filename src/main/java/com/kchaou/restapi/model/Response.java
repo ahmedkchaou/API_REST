@@ -1,4 +1,4 @@
-package com.kchaou.javalabs.model;
+package com.kchaou.restapi.model;
 
 public class Response {
 

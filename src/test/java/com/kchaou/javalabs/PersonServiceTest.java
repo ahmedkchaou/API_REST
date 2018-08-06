@@ -16,9 +16,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.kchaou.javalabs.entities.Person;
-import com.kchaou.javalabs.repositories.IPersonRepository;
-import com.kchaou.javalabs.services.PersonServiceImpl;
+import com.kchaou.restapi.entities.Person;
+import com.kchaou.restapi.repositories.IPersonRepository;
+import com.kchaou.restapi.services.PersonServiceImpl;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class PersonServiceTest {

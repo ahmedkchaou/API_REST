@@ -1,4 +1,4 @@
-package com.kchaou.javalabs.entities;
+package com.kchaou.restapi.entities;
 
 import java.io.Serializable;
 

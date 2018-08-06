@@ -1,12 +1,12 @@
-package com.kchaou.javalabs.services;
+package com.kchaou.restapi.services;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kchaou.javalabs.entities.Person;
-import com.kchaou.javalabs.repositories.IPersonRepository;
+import com.kchaou.restapi.entities.Person;
+import com.kchaou.restapi.repositories.IPersonRepository;
 
 @Service("personService")
 public class PersonServiceImpl implements PersonService{

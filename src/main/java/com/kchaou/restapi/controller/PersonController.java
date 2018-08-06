@@ -1,4 +1,4 @@
-package com.kchaou.javalabs.controller;
+package com.kchaou.restapi.controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +14,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.kchaou.exception.PersonException;
-import com.kchaou.javalabs.entities.Person;
-import com.kchaou.javalabs.services.PersonService;
+import com.kchaou.restapi.entities.Person;
+import com.kchaou.restapi.services.PersonService;
 
 @RestController
 @RequestMapping(value = "/person/v1")

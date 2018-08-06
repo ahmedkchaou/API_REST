@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.kchaou.javalabs.entities.Person;
-import com.kchaou.javalabs.repositories.IPersonRepository;
+import com.kchaou.restapi.entities.Person;
+import com.kchaou.restapi.repositories.IPersonRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

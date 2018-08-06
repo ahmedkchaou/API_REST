@@ -1,8 +1,8 @@
-package com.kchaou.javalabs.services;
+package com.kchaou.restapi.services;
 
 import java.util.List;
 
-import com.kchaou.javalabs.entities.Person;
+import com.kchaou.restapi.entities.Person;
 
 public interface PersonService {
 
