@@ -1,6 +1,10 @@
 package com.kchaou.restapi;
 
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -37,17 +41,26 @@ public class PersonServiceTest {
 	@Test
 	public void get_all_persons() {
 
+		//
+		// Given - Preparation
+		//
 		List<Person> personList = new ArrayList<Person>();
 
 		personList.add(new Person("bou7a", "bouhamed", "Courbevoie", "bou7a@gmail.com", "06631645848"));
 
 		when(personRepo.findAll()).thenReturn(personList);
 
+		//
+		// When - Execution
+		//
 		List<Person> result = personService.getAllPerson();
 
+		//
+		// Then - Verification
+		//
 		assertEquals(1, result.size());
 	}
-	
+
 	@Test
 	public void get_person_by_name() {
 		
@@ -57,7 +70,10 @@ public class PersonServiceTest {
 		
 		Person p = personService.findByName(person.getName());
 		
+		verify(personRepo, times(1)).findByName(person.getName());
+		    
 		assertEquals("bou7a", p.getName());
+		
 	}
 
 	@Test
@@ -76,11 +92,24 @@ public class PersonServiceTest {
 	@Test
 	public void remove_person() {
 
+		//
+		//Given
+		//
 		Person person = new Person("bou7a", "bouhamed", "Courbevoie", "bou7a@gmail.com", "06631645848");
 
+		//
+		//When
+		//
 		personService.removePerson(person);
 
+		List<Person> result = personService.getAllPerson();
+		
+		//
+		//Then
+		//
 		verify(personRepo, times(1)).delete(person);
-
+		
+		assertEquals(0, result.size());
+		
 	}
 }

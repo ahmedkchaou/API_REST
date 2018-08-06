@@ -28,7 +28,7 @@ public class PersonController {
 
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
 	public ResponseEntity<List<Person>> getAllToDo() {
-		logger.info("Returning all the Person´s");
+		logger.info("Returning all the Person's");
 		return new ResponseEntity<List<Person>>(personService.getAllPerson(), HttpStatus.OK);
 	}
 
@@ -37,7 +37,7 @@ public class PersonController {
 		logger.info("Person id to return " + id);
 		Person person = personService.getPersonById(id);
 		if (person == null || person.getIdPesron() <= 0) {
-			throw new PersonException("Person doesn´t exist");
+			throw new PersonException("Person doesn't exist");
 		}
 		return new ResponseEntity<Person>(personService.getPersonById(id), HttpStatus.OK);
 	}
@@ -65,7 +65,7 @@ public class PersonController {
 		logger.info("Person to update " + person);
 		Person p = personService.getPersonById(person.getIdPesron());
 		if (p == null || p.getIdPesron() <= 0) {
-			throw new PersonException("Person to update doesn´t exist");
+			throw new PersonException("Person to update doesn't exist");
 		}
 		return new ResponseEntity<Person>(personService.savePerson(person), HttpStatus.OK);
 	}
